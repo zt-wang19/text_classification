@@ -13,4 +13,8 @@ X_bow = text_to_feature_vector_bow(text, vocab)
 
 # for glove
 X_glove = text_to_feature_vector_glove(text)
+
+# mp
+X_bow = mp_text_to_feature_vector(texts, method='bow', vocab=vocab)
+X_glove = mp_text_to_feature_vector(texts, method='glove')
 ```
