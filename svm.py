@@ -1,15 +1,20 @@
 # 示例数据集
-texts = [
-    'I love programming in Python',
-    'Python is a great language',
-    'I hate bugs in the code',
-    'Debugging is fun',
-    'I enjoy learning new programming languages',
-    'Machine learning with Python is awesome'
-]
-labels = [1, 1, 0, 1, 1, 1]  # 1表示正面评论，0表示负面评论
+# texts = [
+#     'I love programming in Python',
+#     'Python is a great language',
+#     'I hate bugs in the code',
+#     'Debugging is fun',
+#     'I enjoy learning new programming languages',
+#     'Machine learning with Python is awesome'
+# ]
+# labels = [1, 1, 0, 1, 1, 1]  # 1表示正面评论，0表示负面评论
 
 import numpy as np
+import pandas as pd
+df = pd.read_csv('train.csv')
+# texts = 
+print(df.head())
+# exit()
 
 # 将文本转换为词袋模型
 def create_vocab(texts):
@@ -63,11 +68,6 @@ class SVM:
 model = SVM(learning_rate=0.001, lambda_param=0.01, n_iters=1000)
 model.fit(X, y)
 
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import classification_report, accuracy_score
-
-# 将数据集拆分为训练集和测试集
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
 
 # 训练模型
 model.fit(X_train, y_train)
@@ -76,8 +76,7 @@ model.fit(X_train, y_train)
 y_pred = model.predict(X_test)
 
 # 将预测结果转换回原始标签
-y_pred = np.where(y_pred == -1, 0, 1)
+y_pred = np.where(y_pred == -1, 1, 2)
 
-# 输出分类报告和准确率
-print(classification_report(y_test, y_pred))
-print("Accuracy:", accuracy_score(y_test, y_pred))
+# 计算准确率
+# accuracy = 
