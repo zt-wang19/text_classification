@@ -55,7 +55,7 @@ def mp_text_to_feature_vector(texts, method='bow', vocab=None):
     
     start = time.time()
     
-    pool = Pool(8)
+    pool = Pool(4)
     if method == 'bow':
         text_to_feature_vector_bow_partial = partial(text_to_feature_vector_bow, vocab=vocab)
         feature_vectors = pool.map(text_to_feature_vector_bow_partial, texts)
