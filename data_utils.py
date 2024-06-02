@@ -1,9 +1,11 @@
 import time
+import json
 from tqdm import tqdm
 from functools import partial
 from multiprocessing import Pool
 import numpy as np
 import pandas as pd
+
 
 def read_data(split='train'):
     data = pd.read_csv(f"dataset/{split}.csv", header=None)
@@ -16,13 +18,19 @@ def read_data(split='train'):
 
     return texts, labels
 
-def create_vocab(texts):
-    vocab = set()
-    for text in texts:
+def create_vocab(texts, n=1000):
+    vocab = {}
+    for text in tqdm(texts):
         for word in text.split():
-            vocab.add(word.lower())
-    vocab = sorted(list(vocab))
-    vocab = {word: i for i, word in enumerate(vocab)}
+            word = word.lower()
+            if word in vocab:
+                vocab[word] += 1
+            else:
+                vocab[word] = 1
+    vocab = sorted(vocab.items(), key=lambda x: x[1], reverse=True)
+    vocab = {word[0]: i for i, word in enumerate(vocab[:n])}
+    with open('vocab.json','w') as f:
+        json.dump(vocab,f,ensure_ascii=False,indent=4)
     return vocab
 
 def text_to_feature_vector_bow(text, vocab):
