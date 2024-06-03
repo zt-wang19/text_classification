@@ -74,6 +74,21 @@ def mp_text_to_feature_vector(texts, method='bow', vocab=None):
     print(time.time() - start)
     return np.array(feature_vectors)
 
+def train_val_split(X, y, val_size=0.1): 
+    n = len(X)
+    indices = np.arange(n)
+    np.random.shuffle(indices)
+    
+    X = X[indices]
+    y = y[indices]
+    
+    val_size = int(n * (1 - val_size))
+    X_train, y_train = X[:val_size], y[:val_size]
+    X_val, y_val = X[val_size:], y[val_size:]
+
+    return X_train, y_train, X_val, y_val
+
+
 if __name__ == '__main__':
     texts, labels = read_data('train')
     vocab = create_vocab(texts)
