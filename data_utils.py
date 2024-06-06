@@ -29,7 +29,7 @@ def create_vocab(texts, n=1000):
                 vocab[word] = 1
     vocab = sorted(vocab.items(), key=lambda x: x[1], reverse=True)
     vocab = {word[0]: i for i, word in enumerate(vocab[:n])}
-    with open('vocab.json','w') as f:
+    with open('dataset/vocab.json','w') as f:
         json.dump(vocab,f,ensure_ascii=False,indent=4)
     return vocab
 
