@@ -86,7 +86,7 @@ def test_model(model, test_loader):
     print(f"Test Accuracy: {(tp + tn) / (tp + fp + tn + fn):.4f}")
 
 if __name__ == '__main__':
-    method = 'glove'
+    method = 'bow'
     learning_rate = 0.001
     num_epochs = 5
 
@@ -120,3 +120,4 @@ if __name__ == '__main__':
 
     train_model(model, train_loader, valid_loader, criterion, optimizer, num_epochs)
     test_model(model, test_loader)
+    torch.save(model.state_dict(), 'ckpt/mlp.pt')
