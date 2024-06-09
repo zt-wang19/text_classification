@@ -77,11 +77,11 @@ class MaximumEntropyModel:
 if __name__ == '__main__':
     # Params
     method = 'bow'  # 'bow' or 'glove'
-    lr = 0.02  # 0.2
-    max_iter = 5000
+    lr = 0.028  # 0.25
+    max_iter = 7000
     tol = 1e-4
     patience = 20
-    decay_rate = 0.98  # 0.99
+    decay_rate = 1.0  # 0.99
 
     # Data & Embedding 
     texts, labels = read_data('train')
@@ -103,6 +103,19 @@ if __name__ == '__main__':
     test_texts, test_labels = read_data('test')
     X_test = mp_text_to_feature_vector(test_texts, method=method, vocab=vocab)
     y_test = np.array(test_labels) - 1
-    test_accuracy = np.mean(model.predict(X_test) == y_test)
-    print('Test Accuracy:', test_accuracy)
+    y_test_pred = model.predict(X_test)
     
+    # True Positives (TP), False Positives (FP), True Negatives (TN), False Negatives (FN)
+    TP = np.sum((y_test == 1) & (y_test_pred == 1))
+    FP = np.sum((y_test == 0) & (y_test_pred == 1))
+    TN = np.sum((y_test == 0) & (y_test_pred == 0))
+    FN = np.sum((y_test == 1) & (y_test_pred == 0))
+
+    # Calculate precision, recall, and F1-score
+    accuracy = (TP + TN) / (TP + TN + FP + FN)
+    precision = TP / (TP + FP) if (TP + FP) > 0 else 0
+    recall = TP / (TP + FN) if (TP + FN) > 0 else 0
+    f1_score = 2 * precision * recall / (precision + recall) if (precision + recall) > 0 else 0
+
+    # Print the results
+    print(f'Test Accuracy: {accuracy:.5f} | Precision: {precision:.5f} | Recall: {recall:.5f} | F1 Score: {f1_score:.5f}')
