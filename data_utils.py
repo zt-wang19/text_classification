@@ -20,7 +20,7 @@ def read_data(split='train'):
 
 def create_vocab(texts, n=1000):
     vocab = {}
-    for text in tqdm(texts):
+    for text in tqdm(texts,desc='creating vocab'):
         for word in text.split():
             word = word.lower()
             if word in vocab:
@@ -49,7 +49,7 @@ with open(glove_path, 'r') as f:
         vector = np.asarray(values[1:], dtype='float32')
         glove[word] = vector
 
-def text_to_feature_vector_glove(text):
+def text_to_feature_vector_glove(text,vocab=None):
     vector = np.zeros(100)
     words = text.split()
     for word in words:
@@ -71,7 +71,7 @@ def mp_text_to_feature_vector(texts, method='bow', vocab=None):
         feature_vectors = pool.map(text_to_feature_vector_glove, texts)
     pool.close()
     pool.join()
-    print(time.time() - start)
+    print('text2vec time:', time.time() - start)
     return np.array(feature_vectors)
 
 def train_val_split(X, y, val_size=0.1): 
