@@ -7,7 +7,7 @@ from mlp import MLP
 from data_utils import read_data, create_vocab, text_to_feature_vector_bow
 
 if __name__ == '__main__':
-    with open('dataset/vocab.json', 'r') as vocab_f:
+    with open('ckpt/vocab.json', 'r') as vocab_f:
         vocab = json.load(vocab_f)
     
     input_dim = len(vocab)
