@@ -66,7 +66,7 @@ class SVM:
         return np.sign(approx)
 
 # 训练模型
-model = SVM(learning_rate=0.001, lambda_param=0.01, n_iters=1)
+model = SVM(learning_rate=0.001, lambda_param=0.01, n_iters=100)
 model.fit(X_train, y_train)
 
 final_acc = eval(model,X_test,y_test)
